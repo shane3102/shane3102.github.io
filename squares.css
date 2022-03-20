@@ -1,0 +1,55 @@
+.square
+{
+	background-color: orange;
+	color: black;
+	float: left;
+	width: 33%;
+	height: 0;
+	padding-bottom: 33%;
+	font-size: 8vw;
+	text-align: center;
+}
+
+#square11
+{
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+#square13
+{
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+#square31
+{
+	border-right: 1px solid black;
+	border-top: 1px solid black;
+}
+
+#square33
+{
+	border-left: 1px solid black;
+	border-top: 1px solid black;
+}
+
+#square12
+{
+	border-bottom: 1px solid black;
+}
+
+#square21
+{
+	border-right: 1px solid black;
+}
+
+#square23
+{
+	border-left: 1px solid black;
+}
+
+#square32
+{
+	border-top: 1px solid black;
+}
