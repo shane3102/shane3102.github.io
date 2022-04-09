@@ -3,11 +3,18 @@
 	background-color: orange;
 	color: black;
 	float: left;
-	width: 33%;
+	width: 32%;
 	height: 0;
 	padding-bottom: 33%;
 	font-size: 8vw;
 	text-align: center;
+}
+
+@media screen and (max-width: 800px){
+	.square
+	{
+		font-size: 18vw;
+	}
 }
 
 #square11

@@ -1,23 +1,4 @@
-
-#toolbar
-{
-	height: 60px;
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #00FFFF;
-	color: #D2691E;
-	border-left: 3px solid #7FFF00;
-	border-right: 3px solid #7FFF00;
-	border-bottom: 3px solid #7FFF00;
-	border-radius: 0px 0px 25px 25px;
-}
-
-#toolbarTitle
-{
-	width: 30%;
-	margin: 10px;
-	float: left;
-}
-
+/* komputer */
 img
 {
 	width: 100%;
@@ -27,24 +8,22 @@ img
     margin: auto;
 }
 
-#middlePanel
+#game
 {
-	margin-left: auto;
-	margin-right: auto;
-	float: left;
-	width: 32%;
-	margin: 1%;
+	width: 33%;
+	margin-left: 33%;
+	margin-right: 33%;
 }
 
 #image
 {
 	display: block;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 33%;
+	margin-right: 33%;
 	color: green;
 	background-color: LightGray;
 	float: left;
-	width: 100%;
+	width: 33%;
 }
 
 #restartButton
@@ -69,30 +48,12 @@ img
 	height: 20px;
 }
 
-.lorem
+/* tablet */
+@media screen and (max-width: 800px){
+	#game
 {
-	margin: 1%;
-	color: green;
-	background-color: LightGray;
-	float: left;
-	width: 30%;
-	padding: 0.5%;
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
 }
-
-.toolbarButton
-{
-	width: 20%;
-	margin: 10px;
-	height: 25px;
-	float: left;
-	color: #D2691E;
-	background-color: #7FFF00;
-	border: 3px solid #D2691E;
-	border-radius: 25px;
-}
-
-.toolbarButton:hover
-{
-	color: #7FFF00;
-	background-color: #D2691E;
 }

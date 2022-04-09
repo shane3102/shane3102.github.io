@@ -1,3 +1,5 @@
+var panelIds = ["loremPanel","gamePanel","imagePanel"];
+
 var gamestate = [[" "," "," "],
 				 [" "," "," "],
 				 [" "," "," "]];
@@ -93,4 +95,12 @@ function dodaj(i,j){
 		isGameWon = true;
 		document.getElementById("info").innerHTML = "Brak dostepnego ruchu - padl remis";
 	}
+}
+
+function changeDisplay(number){
+	for(let i = 1;i<=3;i++){
+		document.getElementById(panelIds[parseInt(i-1)]).style.display = "none";
+	}
+	
+	document.getElementById(panelIds[parseInt(number)]).style.display = "inline";
 }
