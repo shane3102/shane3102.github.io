@@ -1,4 +1,4 @@
-var url = 'http://localhost:8080';
+var url = 'https://backend-cv-app.herokuapp.com';
 
 var tabIds = ["tab1", "tab2", "tab3"];
 var tabButtonIds = ["tabButton1", "tabButton2", "tabButton3"];
