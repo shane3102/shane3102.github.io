@@ -1,106 +1,144 @@
-var panelIds = ["loremPanel","gamePanel","imagePanel"];
+var url = 'http://localhost:8080';
 
-var gamestate = [[" "," "," "],
-				 [" "," "," "],
-				 [" "," "," "]];
-var who = 0;
-var isGameWon = false;
-var infoTemplate = "Wygral gracz grajacy: "
-	
-function restart(){
-	gamestate = [[" "," "," "],
-				 [" "," "," "],
-				 [" "," "," "]];
+var tabIds = ["tab1", "tab2", "tab3"];
+var tabButtonIds = ["tabButton1", "tabButton2", "tabButton3"];
+var endpointPaths = ['/api/get-profile','/api/get-education','/api/get-job'];
 
-	for(let i = 1; i<=3; i++){
-		for(let j = 1; j<=3; j++){
-			document.getElementById("square" + i + j).innerHTML = " ";
-		}
-	}
-	document.getElementById("info").innerHTML = " ";
-	isGameWon = false;
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function isMoveAvailable(){
-	for(let i = 1; i<=3; i++){
-		for(let j = 1; j<=3; j++){
-			if(gamestate[i-1][j-1]==" ") return true;
-		}
-	}
-	return false;
-}
-	
-function isWon(){
-	let result = isWonDiagonally();
-	if(result==" "){
-		result = isWonHorisontally();
-	}
-	if(result==" "){
-		result = isWonVertically();
-	}
-	return result;
+function getData(tabId)
+{
+    console.log(tabId);
+    if(tabId == 1)
+    {
+        getProfileData();
+    } 
+    else if(tabId == 2){
+        getSchoolData();
+    } 
+    else if(tabId == 3){
+        getJobData();
+    }
 }
 
-function isWonHorisontally(){
-	let result = ' ';
-	for(let i=1; i<=3; i++){
-		var searched = gamestate[i-1][0];
-		for(let j=2;j<=3;j++){
-			if(searched!=gamestate[i-1][j-1]){
-				searched = " ";
-			}
-		}
-		if(searched!=" ") return searched;
-	}
-	return " ";
+function getProfileData(){
+
+    for(i=1;i<=tabIds.length;i++)
+    {
+        document.getElementById(tabIds[i-1]).innerHTML = "";
+    }
+
+    json = fetch(url+endpointPaths[0])
+        .then(response => response.json())
+        .then(json => {
+            document.getElementById("tab1").innerHTML = document.getElementById("tab1").innerHTML    
+            +json.data;
+        });
 }
 
-function isWonVertically(){
-	let result = " ";
-	for(let i=1; i<=3; i++){
-		var searched = gamestate[0][i-1];
-		for(let j=2;j<=3;j++){
-			if(searched!=gamestate[j-1][i-1]){
-				searched = " ";
-			}
-		}
-		if(searched!=" ") return searched;
-	}
-	return " ";
+function getSchoolData(){
+
+    for(i=1;i<=tabIds.length;i++)
+    {
+        document.getElementById(tabIds[i-1]).innerHTML = "";
+    }
+
+    json = fetch(url+endpointPaths[1])
+        .then(response => response.json())
+        .then(json => {
+            for(let i = 1 ;i<=json.length;i++){
+                document.getElementById("tab2").innerHTML = 
+                    document.getElementById("tab2").innerHTML + prepareSchoolDiv(i)
+
+                document.getElementById("school"+i).innerHTML = 
+                    json[i-1].schoolName+
+                    "<br>Od: "+json[i-1].dateFrom+
+                    (json[i-1].dateTo == null ? "<br>W trakcie" : "<br>Do: "+json[i-1].dateTo)+
+                    "<br>"+json[i-1].additionalInformation;
+            }
+        });
 }
 
+function getJobData(){
 
-function isWonDiagonally(){
-	if(gamestate[0][0]==gamestate[1][1] && gamestate[1][1]==gamestate[2][2]){
-		return gamestate[0][0];
-	}
-	if(gamestate[0][2]==gamestate[1][1] && gamestate[1][1]==gamestate[2][0]){
-		return gamestate[0][2];
-	}
-	return " ";
+    for(i=1;i<=tabIds.length;i++)
+    {
+        document.getElementById(tabIds[i-1]).innerHTML = "";
+    }
+    
+    json = fetch(url+endpointPaths[2])
+        .then(response => response.json())
+        .then(json => {
+            for(let i = 1 ;i<=json.length;i++){
+                document.getElementById("tab3").innerHTML = 
+                    document.getElementById("tab3").innerHTML + prepareJobDiv(i);
+                
+                document.getElementById("job"+i).innerHTML = 
+                "Nazwa firmy: "+json[i-1].companyName+
+                "<br>Stanowisko: "+json[i-1].positionName+
+                "<br>Od: "+json[i-1].dateFrom+
+                (json[i-1].dateTo == null ? "<br>W trakcie" : "<br>Do: "+json[i-1].dateTo)+
+                "<br>Opis: "+json[i-1].description;
+            }
+        });
 }
 
-function dodaj(i,j){
-	if(!isGameWon){
-		let XorO = who == 0 ? "X" : "O"
-		document.getElementById("square" + i + j).innerHTML = XorO;
-		gamestate[i-1][j-1] = XorO;
-		who = (who % 2 + 1) % 2;
-	}
-	let result = isWon();
-	if(result!=" ") {
-		isGameWon = true;
-		document.getElementById("info").innerHTML = infoTemplate + result;
-	} else if(!isMoveAvailable()){
-		isGameWon = true;
-		document.getElementById("info").innerHTML = "Brak dostepnego ruchu - padl remis";
-	}
+function prepareSchoolDiv(i){
+    let div = "<div class=\"jobAndEducationElement\" id=\"school"+i+"\"></div>";
+    return div;
 }
 
-function changeDisplay(number){
-	for(let i = 1;i<=3;i++){
-		document.getElementById(panelIds[parseInt(i-1)]).style.display = "none";
-	}
-	
-	document.getElementById(panelIds[parseInt(number)]).style.display = "inline";
+function prepareJobDiv(i){
+    let div = "<div class=\"jobAndEducationElement\" id=\"job"+i+"\"></div>";
+    return div;
 }
+
+$(document).ready(function(){
+    $(".tabButton").click(async function(){
+
+        let buttonId = this.id;
+        let tabId;
+        let sleepDuration = 0;
+
+        for(let i=1; i<=tabIds.length;i++){
+
+            if(window.getComputedStyle(document.getElementById(tabIds[i-1])).display!="none" && buttonId!=tabButtonIds[i-1])
+            {
+                $('#'+tabIds[i-1]).animate({width: 'toggle'});
+                await sleep(300);
+                document.getElementById(tabButtonIds[i-1]).style.position = "absolute";
+                document.getElementById(tabButtonIds[i-1]).style.marginTop = "1%";
+                sleepDuration = 300;
+            }
+
+            if(buttonId==tabButtonIds[i-1])
+            {
+                tabId = i;
+            }
+        }
+
+        await sleep(sleepDuration);
+
+        if(document.getElementById(buttonId).style.position == "static")
+        {
+            $('#'+tabIds[tabId-1]).animate({width: 'toggle'});
+            await sleep(300);
+            document.getElementById(buttonId).style.position = "absolute";
+            document.getElementById(buttonId).style.marginTop = "1%";
+        }
+        else
+        {
+            $('#'+tabIds[tabId-1]).animate({width: 'toggle'});
+            let calculatedTopMargin = window.getComputedStyle(document.getElementById(buttonId)).top;
+            let calculatedHeight = window.getComputedStyle(document.getElementById(buttonId)).height;
+            let calculatedToolbarHeight = window.getComputedStyle(document.getElementById("toolbar")).height;
+            document.getElementById(buttonId).style.position = "static";
+            document.getElementById(buttonId).style.marginTop = calculatedTopMargin.slice(0,calculatedTopMargin.length-2) - calculatedToolbarHeight.slice(0,calculatedToolbarHeight.length-2)+"px";
+            document.getElementById(buttonId).style.height = calculatedHeight;
+            getData(tabId);
+        }
+        
+    })
+});
