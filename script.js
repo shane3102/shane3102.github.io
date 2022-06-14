@@ -10,7 +10,6 @@ function sleep(ms) {
 
 function getData(tabId)
 {
-    console.log(tabId);
     if(tabId == 1)
     {
         getProfileData();
